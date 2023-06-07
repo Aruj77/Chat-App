@@ -1,60 +1,32 @@
-import "package:chat_app/helper/helper_function.dart";
-import "package:chat_app/pages/auth/login_page.dart";
-import "package:chat_app/pages/profile_page.dart";
-import "package:chat_app/pages/search_page.dart";
-import "package:chat_app/widgets/widget.dart";
-import "package:flutter/material.dart";
+import 'package:chat_app/pages/home_page.dart';
+import 'package:flutter/material.dart';
 import "package:chat_app/service/auth_service.dart";
+import '../widgets/widget.dart';
+import 'auth/login_page.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+// ignore: must_be_immutable
+class ProfilePage extends StatefulWidget {
+  String userName;
+  String email;
+  ProfilePage({Key? key, required this.email, required this.userName})
+      : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  String userName = "";
-  String email = "";
+class _ProfilePageState extends State<ProfilePage> {
   AuthService authService = AuthService();
-
-  @override
-  void initState() {
-    super.initState();
-    gettingUserData();
-  }
-
-  gettingUserData() async {
-    await HelperFunctions.getUserEmailFromSF().then((value) {
-      setState(() {
-        email = value!;
-      });
-    });
-
-    await HelperFunctions.getUserNameFromSF().then((value) {
-      setState(() {
-        userName = value!;
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                nextScreen(context, const SearchPage());
-              },
-              icon: const Icon(Icons.search))
-        ],
-        elevation: 0,
-        centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
+        elevation: 0,
         title: const Text(
-          'Groups',
-          style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+          'Profile',
+          style: TextStyle(
+              fontWeight: FontWeight.bold, color: Colors.white, fontSize: 27),
         ),
       ),
       drawer: Drawer(
@@ -68,16 +40,16 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 15),
             Text(
-              userName,
+              widget.userName,
               textAlign: TextAlign.center,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 30),
             const Divider(height: 2),
             ListTile(
-              onTap: () {},
-              selectedColor: Theme.of(context).primaryColor,
-              selected: true,
+              onTap: () async {
+                nextScreenReplace(context, const HomePage());
+              },
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               leading: const Icon(Icons.group),
@@ -87,9 +59,9 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ListTile(
-              onTap: () async {
-                nextScreenReplace(context, ProfilePage(userName: userName,email: email));
-              },
+              onTap: () {},
+              selectedColor: Theme.of(context).primaryColor,
+              selected: true,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               leading: const Icon(Icons.person),
@@ -137,6 +109,31 @@ class _HomePageState extends State<HomePage> {
                 'Log Out',
                 style: TextStyle(color: Colors.black),
               ),
+            ),
+          ],
+        ),
+      ),
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 170),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(Icons.account_circle, size: 200, color: Colors.grey[700]),
+            const SizedBox(height: 15,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Full Name', style: TextStyle(fontSize: 17)),
+                Text(widget.userName, style: const TextStyle(fontSize: 17))
+              ],
+            ),
+              const Divider(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Email', style: TextStyle(fontSize: 17)),
+                Text(widget.email, style: const TextStyle(fontSize: 17))
+              ],
             ),
           ],
         ),

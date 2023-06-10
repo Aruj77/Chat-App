@@ -1,6 +1,6 @@
 import "package:chat_app/pages/auth/register_page.dart";
-import "package:chat_app/service/darabase_service.dart";
-import "package:chat_app/widgets/widget.dart";
+import 'package:chat_app/service/database_service.dart';
+import 'package:chat_app/widgets/widgets.dart';
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/gestures.dart";

@@ -1,7 +1,7 @@
 import 'package:chat_app/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import "package:chat_app/service/auth_service.dart";
-import '../widgets/widget.dart';
+import '../widgets/widgets.dart';
 import 'auth/login_page.dart';
 
 // ignore: must_be_immutable
